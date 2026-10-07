@@ -1,0 +1,59 @@
+{
+  "name": "iodx",
+  "version": "0.1.0-dev",
+  "description": "TypeScript implementation of the IODX data format",
+  "keywords": [
+    "iodx",
+    "serialization",
+    "configuration",
+    "data-format"
+  ],
+  "author": "Yuri Kravchik",
+  "homepage": "https://iodx.org/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kravchik/iodx-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kravchik/iodx-ts/issues"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "browser": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "browser": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "test:package": "npm run build && node scripts/check-package.mjs",
+    "test:vscode": "node scripts/test-vscode-extension-host.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run typecheck && npm run test && npm run lint && npm run format:check"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@vscode/test-electron": "^3.1.0",
+    "eslint": "10.12.0",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.1"
+  }
+}

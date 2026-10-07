@@ -1,0 +1,24 @@
+{
+  "name": "iodx-parser-extension-host-smoke",
+  "displayName": "IODX Parser Extension Host Smoke",
+  "publisher": "iodx",
+  "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "main": "./extension.cjs",
+  "activationEvents": [
+    "onLanguage:iodx"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "iodx",
+        "extensions": [
+          ".iodx"
+        ]
+      }
+    ]
+  }
+}
