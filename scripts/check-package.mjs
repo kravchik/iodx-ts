@@ -11,16 +11,21 @@ const npmEnvironment = {
   ...process.env,
   npm_config_cache: resolve(target, "npm-cache"),
 };
+const npmCli = process.env.npm_execpath;
+assert.ok(npmCli, "Run the package smoke test through npm");
 await rm(target, { recursive: true, force: true });
 await mkdir(consumer, { recursive: true });
 
-const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 const packed = JSON.parse(
-  execFileSync(npm, ["pack", "--ignore-scripts", "--json", "--pack-destination", target], {
-    cwd: projectRoot,
-    encoding: "utf8",
-    env: npmEnvironment,
-  }),
+  execFileSync(
+    process.execPath,
+    [npmCli, "pack", "--ignore-scripts", "--json", "--pack-destination", target],
+    {
+      cwd: projectRoot,
+      encoding: "utf8",
+      env: npmEnvironment,
+    },
+  ),
 )[0];
 const paths = packed.files.map((file) => file.path);
 assert.ok(paths.includes("dist/index.js"));
@@ -42,8 +47,8 @@ for (const path of paths.filter((path) => path.endsWith(".js"))) {
 await writeFile(resolve(consumer, "package.json"), '{"private":true,"type":"module"}\n');
 const tarball = resolve(target, packed.filename);
 execFileSync(
-  npm,
-  ["install", "--ignore-scripts", "--no-audit", "--no-fund", "--offline", tarball],
+  process.execPath,
+  [npmCli, "install", "--ignore-scripts", "--no-audit", "--no-fund", "--offline", tarball],
   { cwd: consumer, stdio: "inherit", env: npmEnvironment },
 );
 await writeFile(
